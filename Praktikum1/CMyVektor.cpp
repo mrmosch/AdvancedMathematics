@@ -1,9 +1,8 @@
 #include "pch.h"
 #include <iostream>
-#include "CMyVektor.h"
 #include <vector>
 #include <cmath>
-
+#include "CMyVektor.h"
 
 CMyVektor::CMyVektor(int d)
 {
@@ -46,7 +45,7 @@ CMyVektor operator+(CMyVektor a, CMyVektor b)
 	CMyVektor *c = new CMyVektor(a.getDimension());
 	for (int i = 0; i < a.getDimension(); i++)
 	{
-		c->setWerte(a.getDimension, (a.getWert(i) + b.getWert(i)));
+		c->setWerte(i, (a.getWert(i) + b.getWert(i)));
 	}
 	return *c;
 }
@@ -55,8 +54,9 @@ CMyVektor operator*(double lambda, CMyVektor a)
 {
 	for (int i = 0; i < a.getDimension(); i++)
 	{
-		a.setWerte(a.getDimension, (lambda * a.getWert(i)));
+		a.setWerte(a.getDimension(), (lambda * a.getWert(i)));
 	}
+	return a; 
 }
 
 //Ausgabe eines Vektor in der Form (Wert1, Wert2, Wert3,..)
@@ -66,14 +66,17 @@ std::ostream& operator<<(std::ostream& os, CMyVektor a)
 	for (int i = 0; i < a.getDimension(); i++)
 	{
 		os << a.getWert(i);
-		os << ", "; 
+		//letztes element filter
+		if (i + 1 < a.getDimension())
+			os << ", ";
+		else
+			os << ") \n";
 	}
-	os << ") \n";
 	return os;
 }
 
 //Gradientenfunktion
 CMyVektor gradient(CMyVektor x, double(*funktion)(CMyVektor x))
 {
-
+	return 0; 
 }
