@@ -21,7 +21,7 @@ int main()
 	cout << a;
 	cout << b;
 	
-	cout << "Addition" << (a+b);
+	cout << "Addition " << (a+b);
 	cout << "Skalare Multiplikation mit Lambda: " << lambda << " * Vektor a " << (5*a);
 	cout << "Skalare Multiplikation mit Lambda: " << lambda << " * Vektor b " << (5 * b);
 
