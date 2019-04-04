@@ -54,7 +54,7 @@ CMyVektor operator*(double lambda, CMyVektor a)
 {
 	for (int i = 0; i < a.getDimension(); i++)
 	{
-		a.setWerte(a.getDimension(), (lambda * a.getWert(i)));
+		a.setWerte(i, (lambda * a.getWert(i)));
 	}
 	return a; 
 }

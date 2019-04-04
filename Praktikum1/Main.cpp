@@ -6,6 +6,8 @@ using namespace std;
 
 int main()
 {
+	double lambda = 5;
+
 	CMyVektor a(3);
 	a.setWerte(0, 1);
 	a.setWerte(1, 2);
@@ -20,6 +22,8 @@ int main()
 	cout << b;
 	
 	cout << "Addition" << (a+b);
+	cout << "Skalare Multiplikation mit Lambda: " << lambda << " * Vektor a " << (5*a);
+	cout << "Skalare Multiplikation mit Lambda: " << lambda << " * Vektor b " << (5 * b);
 
 	return 0;
 }
