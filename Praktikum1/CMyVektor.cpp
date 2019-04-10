@@ -42,12 +42,16 @@ CMyVektor operator+(CMyVektor a, CMyVektor b)
 	{
 		std::cout << "Ungleiche Dimensionen, daher keine Addition möglich"; 
 	}
-	CMyVektor *c = new CMyVektor(a.getDimension());
-	for (int i = 0; i < a.getDimension(); i++)
+	else
 	{
-		c->setWerte(i, (a.getWert(i) + b.getWert(i)));
+		CMyVektor *c = new CMyVektor(a.getDimension());
+		for (int i = 0; i < a.getDimension(); i++)
+		{
+			c->setWerte(i, (a.getWert(i) + b.getWert(i)));
+		}
+		return *c;
 	}
-	return *c;
+	
 }
 //Vektor Skalare Multiplikation
 CMyVektor operator*(double lambda, CMyVektor a)
@@ -75,8 +79,26 @@ std::ostream& operator<<(std::ostream& os, CMyVektor a)
 	return os;
 }
 
-//Gradientenfunktion
-CMyVektor gradient(CMyVektor x, double(*funktion)(CMyVektor x))
+/// <summary>
+/// Gradientenfunktion
+/// </summary>
+/// <param name="x">
+/// Der Vektor auf dem das Gradientenverfahren angewandt werden soll
+/// </param>
+/// <returns>
+/// Gradient vom Typ CMyVektor
+/// </returns>
+CMyVektor gradient(CMyVektor x, double (*funktion)(CMyVektor x))
 {
-	return 0; 
+	const double h = pow(10, -8);
+	CMyVektor grad(x.getDimension());
+	CMyVektor shift(x.getDimension());
+	for (int i = 0; i < x.getDimension(); i++)
+	{
+		shift = x;
+		shift.setWerte(i, (x.getWert(i) + h));
+		grad.setWerte(i, (funktion(shift) - funktion(x) / h));
+		shift = x; 
+	}
+	return grad; 
 }

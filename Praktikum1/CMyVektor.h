@@ -6,16 +6,16 @@
 
 class CMyVektor
 {
-private: 
-	int dimension; 
-	double* werte;
-public: 
-	CMyVektor(int d);
-	void setDimension(int d);
-	int getDimension();
-	void setWerte(int d, double w);
-	double getWert(int d);
-	double vektorLength();
+	private: 
+		int dimension; 
+		double* werte;
+	public: 
+		CMyVektor(int d);
+		void setDimension(int d);
+		int getDimension();
+		void setWerte(int d, double w);
+		double getWert(int d);
+		double vektorLength();
 };
 
 //Operatoren überladen
