@@ -153,7 +153,7 @@ CMyVektor gradientenVerfahren(CMyVektor start, double(*funktion)(CMyVektor start
 				cout << "\t Neue und bereits halbierte Schrittweite (Lambda = " << lambda << ")" << endl;
 				x_neu = start + (lambda*grad);
 				cout << "\t x_neu = " << x_neu << endl;
-				cout << "\t f(x_neu) = " << funktion(x_neu) << endl;
+				cout << "\t f(x_neu) = " << funktion(x_neu) << endl << endl;
 				
 			}
 			start = x_neu;
