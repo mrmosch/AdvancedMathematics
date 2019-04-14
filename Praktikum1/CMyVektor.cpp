@@ -74,7 +74,7 @@ std::ostream& operator<<(std::ostream& os, CMyVektor a)
 		if (i + 1 < a.getDimension())
 			os << ", ";
 		else
-			os << ") \n";
+			os << ")";
 	}
 	return os;
 }
@@ -101,4 +101,64 @@ CMyVektor gradient(CMyVektor x, double (*funktion)(CMyVektor x))
 		shift = x; 
 	}
 	return grad; 
+}
+
+CMyVektor gradientenVerfahren(CMyVektor start, double(*funktion)(CMyVektor start), double lambda)
+{
+	CMyVektor grad(start.getDimension());
+	grad = gradient(start, funktion);
+	CMyVektor x_neu(start.getDimension());
+	CMyVektor x_test(start.getDimension());
+
+	for (int i = 0; i < 25 && grad.vektorLength() >= pow(10, -5); i++)
+	{
+#pragma region Konsolenausgaben
+		using namespace std;
+		cout << "\n\nSchritt: " << i << endl;
+		cout << "\t x = " << start << endl;
+		cout << "\t lambda = " << lambda << endl;
+		cout << "\t f(x) = " << funktion(start) << endl;
+		cout << "\t grad f(x) = " << grad << endl;
+		cout << "\t ||grad f(x)|| = " << grad.vektorLength() << endl << endl;
+#pragma endregion
+
+		x_neu = start + (lambda*grad);
+		cout << "\t x_neu = " << x_neu << endl;
+		cout << "\t f(x_neu) = " << funktion(x_neu) << endl << endl;
+		if (funktion(x_neu) > funktion(start))
+		{
+			lambda *= 2;
+			cout << "\t Teste mit doppelter Schrittweite (Lambda = " << lambda << "): " << endl;
+			x_test = start + (lambda * grad);
+			cout << "\t x_test = " << x_test << endl;
+			cout << "\t f(x_test) = " << funktion(x_test) << endl << endl;
+			if (funktion(x_test) > funktion(start))
+			{
+				cout << "\t Verdopple Schrittweite !" << endl;
+				start = x_test;
+			}
+			else
+			{
+				lambda /= 2; 
+				start = start + (lambda * grad);
+				cout << "\t Behalte alte Schrittweite. " << endl;
+			}
+
+		}
+		else
+		{
+			while (funktion(x_neu) <= funktion(start))
+			{
+				lambda /= 2;
+				cout << "\t Neue und bereits halbierte Schrittweite (Lambda = " << lambda << ")" << endl;
+				x_neu = start + (lambda*grad);
+				cout << "\t x_neu = " << x_neu << endl;
+				cout << "\t f(x_neu) = " << funktion(x_neu) << endl;
+				
+			}
+			start = x_neu;
+		}
+		grad = gradient(start, funktion); 
+	}
+	return start;
 }

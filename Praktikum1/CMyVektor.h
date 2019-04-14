@@ -33,5 +33,5 @@ std::ostream& operator<<(std::ostream& os, CMyVektor a);
 
 //Gradient
 CMyVektor gradient(CMyVektor x, double(*funktion)(CMyVektor x));
-
+CMyVektor gradientenVerfahren(CMyVektor start, double(*funktion)(CMyVektor start), double lambda = 1);
 #endif // !CMyVektor
