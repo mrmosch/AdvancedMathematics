@@ -21,7 +21,7 @@ void CMyVektor::setWerte(int d, double w)
 {
 	werte[d] = w;
 }
-double CMyVektor::getWert(int d)
+double CMyVektor::getWert(int d) const
 {
 	return werte[d];
 }

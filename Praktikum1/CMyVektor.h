@@ -14,7 +14,7 @@ class CMyVektor
 		void setDimension(int d);
 		int getDimension();
 		void setWerte(int d, double w);
-		double getWert(int d);
+		double getWert(int d) const;
 		double vektorLength();
 };
 
