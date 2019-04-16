@@ -11,7 +11,7 @@ double f(CMyVektor eingabeVektor)
 	double funktionswert;
 	double x = eingabeVektor.getWert(0);
 	double y = eingabeVektor.getWert(1);
-	return funktionswert = sin(x*y) + sin(x) + cos(y); //startstelle (0,2;-2,1)
+	return funktionswert = (sin(x*y) + sin(x) + cos(y)); //startstelle (0,2;-2,1)
 }
 
 double g(CMyVektor eingabeVektor)
@@ -19,11 +19,11 @@ double g(CMyVektor eingabeVektor)
 	if (eingabeVektor.getDimension() != 3)
 		return false;
 	double funktionswert;
-	double x = eingabeVektor.getWert(0);
-	double y = eingabeVektor.getWert(1);
-	double z = eingabeVektor.getWert(2); 
+	double x1 = eingabeVektor.getWert(0);
+	double x2 = eingabeVektor.getWert(1);
+	double x3 = eingabeVektor.getWert(2); 
 	//x1 = x, x2 = y, x3 = z
-	return funktionswert = (-(2 * pow(x, 2) - 2 * x*y + pow(y, 2) + pow(z, 2) - 2 * x - 4 * y));
+	return funktionswert = -(2 * x1*x1 - 2 * x1*x2 + x2 * x2 + x3 * x3 - 2 * x1 - 4 * x3);;
 }
 
 //CMyVektor gradientenverfahren(CMyVektor start, double(*funktion)(CMyVektor start), double lambda)
@@ -96,7 +96,7 @@ int main()
 	
 	CMyVektor testCaseOne(2); 
 	testCaseOne.setWerte(0, 0.2);
-	testCaseOne.setWerte(1, 2.1);
+	testCaseOne.setWerte(1, -2.1);
 
 
 	CMyVektor testCaseTwo(3);

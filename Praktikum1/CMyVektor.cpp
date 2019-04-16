@@ -91,14 +91,15 @@ std::ostream& operator<<(std::ostream& os, CMyVektor a)
 CMyVektor gradient(CMyVektor x, double (*funktion)(CMyVektor x))
 {
 	const double h = pow(10, -8);
+	const double fx = funktion(x);
 	CMyVektor grad(x.getDimension());
-	CMyVektor shift(x.getDimension());
+	
 	for (int i = 0; i < x.getDimension(); i++)
 	{
-		shift = x;
-		shift.setWerte(i, (x.getWert(i) + h));
-		grad.setWerte(i, (funktion(shift) - funktion(x) / h));
-		shift = x; 
+		CMyVektor temp = x; 
+		x.setWerte(i, (x.getWert(i) + h));
+		grad.setWerte(i, ((funktion(x) - fx) / h));
+		x = temp;
 	}
 	return grad; 
 }
