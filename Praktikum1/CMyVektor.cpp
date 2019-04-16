@@ -93,10 +93,9 @@ CMyVektor gradient(CMyVektor x, double (*funktion)(CMyVektor x))
 	const double h = pow(10, -8);
 	const double fx = funktion(x);
 	CMyVektor grad(x.getDimension());
-	
+	CMyVektor temp = x;
 	for (int i = 0; i < x.getDimension(); i++)
 	{
-		CMyVektor temp = x; 
 		x.setWerte(i, (x.getWert(i) + h));
 		grad.setWerte(i, ((funktion(x) - fx) / h));
 		x = temp;
