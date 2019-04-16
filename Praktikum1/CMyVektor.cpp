@@ -56,11 +56,12 @@ CMyVektor operator+(CMyVektor a, CMyVektor b)
 //Vektor Skalare Multiplikation
 CMyVektor operator*(double lambda, CMyVektor a)
 {
+	CMyVektor erg(a.getDimension());
 	for (int i = 0; i < a.getDimension(); i++)
 	{
-		a.setWerte(i, (lambda * a.getWert(i)));
+		erg.setWerte(i, (lambda * a.getWert(i)));
 	}
-	return a; 
+	return erg; 
 }
 
 //Ausgabe eines Vektor in der Form (Wert1, Wert2, Wert3,..)
@@ -93,7 +94,11 @@ CMyVektor gradient(CMyVektor x, double (*funktion)(CMyVektor x))
 	const double h = pow(10, -8);
 	const double fx = funktion(x);
 	CMyVektor grad(x.getDimension());
-	CMyVektor temp = x;
+	CMyVektor temp(x.getDimension());
+	for (int j = 0; j < x.getDimension(); j++)
+	{
+		temp.setWerte(j, x.getWert(j));
+	}
 	for (int i = 0; i < x.getDimension(); i++)
 	{
 		x.setWerte(i, (x.getWert(i) + h));
@@ -132,7 +137,7 @@ CMyVektor gradientenVerfahren(CMyVektor start, double(*funktion)(CMyVektor start
 			x_test = start + (lambda * grad);
 			cout << "\t x_test = " << x_test << endl;
 			cout << "\t f(x_test) = " << funktion(x_test) << endl << endl;
-			if (funktion(x_test) > funktion(start))
+			if (funktion(x_test) > funktion(x_neu))
 			{
 				cout << "\t Verdopple Schrittweite !" << endl;
 				start = x_test;
@@ -140,12 +145,12 @@ CMyVektor gradientenVerfahren(CMyVektor start, double(*funktion)(CMyVektor start
 			else
 			{
 				lambda /= 2; 
-				start = start + (lambda * grad);
+				start = x_neu;
 				cout << "\t Behalte alte Schrittweite. " << endl;
 			}
 
 		}
-		else
+		else if(funktion(x_neu) < funktion(start))
 		{
 			while (funktion(x_neu) <= funktion(start))
 			{
@@ -159,6 +164,12 @@ CMyVektor gradientenVerfahren(CMyVektor start, double(*funktion)(CMyVektor start
 			start = x_neu;
 		}
 		grad = gradient(start, funktion); 
+
+		if (grad.vektorLength() < pow(10, -5))
+			cout << "Abbruch wegen grad.vektorLength() < pow(10, -5)" << endl;
+		if (i == 24)
+			cout << "Abbruch wegen zu vielen Schritten" << endl;
+
 	}
 	return start;
 }
