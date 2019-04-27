@@ -16,6 +16,7 @@ class CMyVektor
 		void setWerte(int d, double w);
 		double getWert(int d) const;
 		double vektorLength();
+		double operator()(int x); 
 };
 
 //Operatoren überladen
@@ -27,6 +28,9 @@ CMyVektor operator+(CMyVektor a, CMyVektor b); //Vektoraddition
 		(3)	  (5*3)	  (15)
 */
 CMyVektor operator*(double lambda, CMyVektor a); 
+double operator*(CMyVektor a, CMyVektor b);
+CMyVektor operator/(CMyVektor a, double lambda);
+CMyVektor operator-(CMyVektor a, CMyVektor b); 
 
 //Ausgabe eines Vektors
 std::ostream& operator<<(std::ostream& os, CMyVektor a);

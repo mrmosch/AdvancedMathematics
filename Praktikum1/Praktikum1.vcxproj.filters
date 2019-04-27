@@ -21,6 +21,9 @@
     <ClInclude Include="CMyVektor.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="CMyMatrix.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -30,6 +33,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="CMyMatrix.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

@@ -64,6 +64,46 @@ CMyVektor operator*(double lambda, CMyVektor a)
 	return erg; 
 }
 
+//Vektor Multiplikation
+double operator*(CMyVektor a, CMyVektor b)
+{
+	double erg = 0; 
+	for (int i = 0; i < a.getDimension(); i++)
+	{
+		erg += a.getWert(i) * b.getWert(i);
+	}
+	return erg; 
+}
+
+CMyVektor operator/(CMyVektor a, double lambda)
+{
+	CMyVektor tmp = CMyVektor(a.getDimension());
+
+	for (int i = 0; i < tmp.getDimension(); i++)
+	{
+		tmp.setWerte(i, a.getWert(i) / lambda);
+	}
+	return tmp;
+}
+
+double CMyVektor::operator()(int x)
+{
+	return werte[x];
+}
+
+CMyVektor operator-(CMyVektor a, CMyVektor b)
+{
+
+	CMyVektor tmp = CMyVektor(a.getDimension());
+
+	for (int i = 0; i < tmp.getDimension(); i++)
+	{
+		tmp.setWerte(i, a.getWert(i) - b.getWert(i));
+	}
+
+	return tmp;
+}
+
 //Ausgabe eines Vektor in der Form (Wert1, Wert2, Wert3,..)
 std::ostream& operator<<(std::ostream& os, CMyVektor a)
 {
@@ -101,6 +141,7 @@ CMyVektor gradient(CMyVektor x, double (*funktion)(CMyVektor x))
 	}
 	for (int i = 0; i < x.getDimension(); i++)
 	{
+		//double wert zwischenspeichern
 		x.setWerte(i, (x.getWert(i) + h));
 		grad.setWerte(i, ((funktion(x) - fx) / h));
 		x = temp;
@@ -115,7 +156,7 @@ CMyVektor gradientenVerfahren(CMyVektor start, double(*funktion)(CMyVektor start
 	CMyVektor x_neu(start.getDimension());
 	CMyVektor x_test(start.getDimension());
 
-	for (int i = 0; i < 25 && grad.vektorLength() >= pow(10, -5); i++)
+	for (int i = 0; i <= 25 && grad.vektorLength() >= pow(10, -5); i++)
 	{
 #pragma region Konsolenausgaben
 		using namespace std;
