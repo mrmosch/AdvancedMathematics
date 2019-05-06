@@ -67,15 +67,17 @@ CMyMatrix CMyMatrix::invers()
 
 std::ostream& operator<<(std::ostream& os, CMyMatrix a)
 {
-	os << "Matrix: ";
-	os << "( ";
-	for (int i = 0; i < 2; i++)
+	os << "Matrix: " << std::endl;
+	
+	for (int i = 0; i < a.GetSpalten(); i++)
 	{
-		os << a.GetKomponente(i, 0) << ", ";
-		
-		os << a.GetKomponente(i, 1) << " ;;; ";
+		for (int j = 0; j < a.GetZeilen(); j++)
+		{
+			os << a.GetKomponente(j, i) << ", ";
+		}
+		os << std::endl << ""; 
 	}
-	os << " ) "; 
+	
 	return os;
 }
 
@@ -128,14 +130,46 @@ CMyMatrix jacobi(CMyVektor x, CMyVektor(*funktion)(CMyVektor x))
 	CMyMatrix ergMatrix(x.getDimension(), m);
 	const double h = 10e-4;
 	CMyVektor xWackel(x.getDimension());
-
+	xWackel = x;
+	CMyVektor fVonX = funktion(x); 
 	for (int i = 0; i < x.getDimension(); i++)
 	{
-		double temp = x.getWert(i);
-		xWackel.setWerte(i, (x.getWert(i) + h));
-		ergMatrix[i] = (funktion(xWackel) - funktion(x)) / h;
-		xWackel.setWerte(i, temp);
+		for (int j = 0; j < m; j++)
+		{
+			double temp = x.getWert(i);
+			xWackel.setWerte(i, (x.getWert(i) + h));
+			ergMatrix.SetKomponente(i, j, ((funktion(xWackel).getWert(j) - fVonX.getWert(j)) / h));
+			xWackel.setWerte(i, temp);
+		}
 	}
 	return ergMatrix;
 }
 
+CMyVektor wackelVektor(CMyMatrix jacobi, CMyVektor(*funktion)(CMyVektor x), CMyVektor start)
+{
+	CMyMatrix inverse = jacobi.invers(); 
+	CMyVektor dx = inverse * ((-1)*(funktion(start)));
+	return dx;
+}
+
+void newtonVerfahren(CMyVektor start, CMyVektor(*funktion)(CMyVektor x))
+{
+	cout << "Newton Verfahren wird ausgeführt: " << endl; 
+	for (int i = 0; i < 50; i++)
+	{
+		CMyMatrix jf = jacobi(start, funktion);
+		CMyMatrix invers = jf.invers();
+		CMyVektor dx = invers * (-1 * funktion(start));
+		CMyVektor fVonX = funktion(start);
+		
+		cout << "Schritt " << i << ": " << endl; 
+		cout << "\t x = " << start << endl; 
+		cout << "\t f(x) = " << funktion(start) << endl; 
+		cout << "\t f'(x) = " << jf << endl; 
+		cout << "\t f'(x)^(-1) = " << invers << endl;
+		cout << "\t dx = " << dx << endl; 
+		cout << "\t ||f(x)|| = " << fVonX.vektorLength() << endl;
+
+		start = start + dx;
+	}
+}

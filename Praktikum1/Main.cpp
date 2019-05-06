@@ -2,6 +2,7 @@
 #include <iostream>
 #include "CMyVektor.h"
 #include "CMyMatrix.h"
+#include <cmath>
 
 using namespace std;
 
@@ -40,6 +41,17 @@ CMyVektor f2(CMyVektor x)
 	erg.setWerte(2, x4); 
 
 	return erg;
+}
+
+CMyVektor f3(CMyVektor eingabe)
+{
+	double x = eingabe.getWert(0);
+	double y = eingabe.getWert(1); 
+
+	CMyVektor erg(2); //r2 nach r2
+	erg.setWerte(0, (pow(x, 3)*pow(y, 3) - 2 * y));
+	erg.setWerte(1, (x - 2));
+	return erg; 
 }
 
 //CMyVektor gradientenverfahren(CMyVektor start, double(*funktion)(CMyVektor start), double lambda)
@@ -152,7 +164,15 @@ int main()
 	testVektorVier.setWerte(2, 0);
 	testVektorVier.setWerte(3, 3);
 
-	cout << jacobi(testVektorVier, f2);
+	cout << testVektorVier << std::endl;
+	cout << jacobi(testVektorVier, f2) << std::endl;
+
+	CMyVektor startVektor(2);
+	startVektor.setWerte(0, 1);
+	startVektor.setWerte(1, 1);
+
+	newtonVerfahren(startVektor, f3);
+
 
 	return 0;
 }

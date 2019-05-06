@@ -21,10 +21,10 @@ public:
 	CMyVektor operator[](int zeile); 
 	double operator()(int zeile, int spalte);
 	CMyVektor gradient(CMyVektor x, double(*funktion)(CMyVektor x));
-	
+	//CMyMatrix jacobi(CMyVektor x, CMyVektor(*funktion)(CMyVektor x));
 };
 std::ostream& operator<<(std::ostream& os, CMyMatrix a);
 CMyVektor operator*(CMyMatrix a, CMyVektor v);
 CMyMatrix jacobi(CMyVektor x, CMyVektor(*funktion)(CMyVektor x));
-
+void newtonVerfahren(CMyVektor start, CMyVektor(*funktion)(CMyVektor x));
 #endif

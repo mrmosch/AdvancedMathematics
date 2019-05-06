@@ -44,12 +44,12 @@ CMyVektor operator+(CMyVektor a, CMyVektor b)
 	}
 	else
 	{
-		CMyVektor *c = new CMyVektor(a.getDimension());
+		CMyVektor c(a.getDimension());
 		for (int i = 0; i < a.getDimension(); i++)
 		{
-			c->setWerte(i, (a.getWert(i) + b.getWert(i)));
+			c.setWerte(i, (a.getWert(i) + b.getWert(i)));
 		}
-		return *c;
+		return c;
 	}
 	
 }
