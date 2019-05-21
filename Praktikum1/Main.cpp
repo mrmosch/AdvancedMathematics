@@ -49,7 +49,7 @@ CMyVektor f3(CMyVektor eingabe)
 	double y = eingabe.getWert(1); 
 
 	CMyVektor erg(2); //r2 nach r2
-	erg.setWerte(0, (pow(x, 3)*pow(y, 3) - 2 * y));
+	erg.setWerte(0, ((pow(x, 3)*pow(y, 3)) - 2 * y));
 	erg.setWerte(1, (x - 2));
 	return erg; 
 }
@@ -172,7 +172,6 @@ int main()
 	startVektor.setWerte(1, 1);
 
 	newtonVerfahren(startVektor, f3);
-
 
 	return 0;
 }

@@ -90,18 +90,40 @@ double CMyMatrix::operator()(int zeile, int spalte)
 	return matrix[zeile].getWert(spalte);
 }
 
-//Matrix Vektor Multiplikation
-CMyVektor operator*(CMyMatrix a, CMyVektor v)
+////Matrix Vektor Multiplikation
+//CMyVektor operator*(CMyMatrix a, CMyVektor v)
+//{
+//	CMyVektor ergebnis(v.getDimension()); 
+//	double temp; 
+//	for (int i = 0; i < a.GetZeilen(); i++)
+//	{
+//		temp = a[i] * v;
+//		ergebnis.setWerte(i,temp);
+//	}
+//	return ergebnis;
+//}
+
+CMyVektor operator*(CMyMatrix A, CMyVektor x)
 {
-	CMyVektor ergebnis(v.getDimension()); 
-	double temp; 
-	for (int i = 0; i < a.GetZeilen(); i++)
+	double temp = 0;
+
+	CMyVektor ergebnis = CMyVektor(x.getDimension());
+
+	for (int z = 0; z < A.GetZeilen(); z++)
 	{
-		temp = a[i] * v;
-		ergebnis.setWerte(i,temp);
+		for (int s = 0; s < A.GetSpalten(); s++)
+		{
+			temp += A.GetKomponente(z, s) * x.getWert(s);
+		}
+
+		ergebnis.setWerte(z, temp);
+
+		temp = 0;
 	}
+
 	return ergebnis;
 }
+
 
 CMyVektor CMyMatrix::gradient(CMyVektor x, double(*funktion)(CMyVektor x))
 {
@@ -129,17 +151,20 @@ CMyMatrix jacobi(CMyVektor x, CMyVektor(*funktion)(CMyVektor x))
 	int m = funktion(x).getDimension(); 
 	CMyMatrix ergMatrix(x.getDimension(), m);
 	const double h = 10e-4;
-	CMyVektor xWackel(x.getDimension());
-	xWackel = x;
+	CMyVektor xwackel(x.getDimension());
+	for (int j = 0; j < x.getDimension(); j++)
+	{
+		xwackel.setWerte(j, x.getWert(j));
+	}
 	CMyVektor fVonX = funktion(x); 
 	for (int i = 0; i < x.getDimension(); i++)
 	{
 		for (int j = 0; j < m; j++)
 		{
 			double temp = x.getWert(i);
-			xWackel.setWerte(i, (x.getWert(i) + h));
-			ergMatrix.SetKomponente(i, j, ((funktion(xWackel).getWert(j) - fVonX.getWert(j)) / h));
-			xWackel.setWerte(i, temp);
+			xwackel.setWerte(i, (x.getWert(i) + h));
+			ergMatrix.SetKomponente(i, j, ((funktion(xwackel).getWert(j) - fVonX.getWert(j)) / h));
+			xwackel.setWerte(i, temp);
 		}
 	}
 	return ergMatrix;
@@ -155,18 +180,21 @@ CMyVektor wackelVektor(CMyMatrix jacobi, CMyVektor(*funktion)(CMyVektor x), CMyV
 void newtonVerfahren(CMyVektor start, CMyVektor(*funktion)(CMyVektor x))
 {
 	cout << "Newton Verfahren wird ausgeführt: " << endl; 
-	for (int i = 0; i < 50; i++)
+	for (int i = 0; i < 50 && funktion(start).vektorLength() >= pow(10, -5); i++)
 	{
+		CMyVektor fVonX = funktion(start);
 		CMyMatrix jf = jacobi(start, funktion);
 		CMyMatrix invers = jf.invers();
-		CMyVektor dx = invers * (-1 * funktion(start));
-		CMyVektor fVonX = funktion(start);
+		//CMyVektor neg_fx = (-1) * funktion(start); 
+		CMyVektor dx = invers * ((-1)*(funktion(start)));
+		
 		
 		cout << "Schritt " << i << ": " << endl; 
 		cout << "\t x = " << start << endl; 
 		cout << "\t f(x) = " << funktion(start) << endl; 
 		cout << "\t f'(x) = " << jf << endl; 
 		cout << "\t f'(x)^(-1) = " << invers << endl;
+		//cout << "\t Neg_Fx = " << neg_fx << endl;
 		cout << "\t dx = " << dx << endl; 
 		cout << "\t ||f(x)|| = " << fVonX.vektorLength() << endl;
 
