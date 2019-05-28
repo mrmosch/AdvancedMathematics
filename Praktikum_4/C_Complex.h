@@ -118,7 +118,6 @@ vector<CKomplex> ft(vector<CKomplex> werte, bool hin)
 	int N = werte.size(); 
 	vector<CKomplex> erg(N);
 	const double pi = 3.14159265358979323846;
-	double Cn; 
 	for (int n = 0; n < N; n++)
 	{
 		CKomplex summe; 
@@ -133,7 +132,7 @@ vector<CKomplex> ft(vector<CKomplex> werte, bool hin)
 			{
 				a = ((2 * pi*k*n) / N);
 			}
-			CKomplex e(a); 
+			CKomplex e(a);
 			summe = summe + (werte[k] * e);
 		}
 		erg[n] = (1 / sqrt(N)*summe); 
