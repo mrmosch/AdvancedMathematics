@@ -35,9 +35,11 @@ int main()
 	startVektorZwei.setKomponente(0, 1); 
 	startVektorZwei.setKomponente(1, -1);
 	startVektorZwei.setKomponente(2, 2);
-	//mySolverZwei.heunVerfahren(0, 2, 100, startVektorZwei);
-	//mySolverZwei.eulerVerfahren(1, 2, 100, startVektorZwei); 
+	mySolverZwei.eulerVerfahren(1, 2, 100, startVektorZwei); //Test DGL System Euler
+	mySolverZwei.heunVerfahren(0, 2, 100, startVektorZwei); //Test DGL System Heun
+	
 
+	//Abweichungen bei DGL
 	for (int i = 10; i <= 10000; i = i * 10)
 	{
 		CMyVektor y = mySolverZwei.eulerVerfahrenNoPrint(1, 2, i, startVektorZwei); 

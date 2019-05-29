@@ -4,6 +4,7 @@ using namespace std;
 
 int main()
 {
+#pragma region Testausgaben und Berechnungen 
 	CKomplex a(2, -4); 
 	CKomplex b(-3, 5); 
 	//Komplexe Multiplikation
@@ -15,7 +16,7 @@ int main()
 	//Komplexe Addition 
 	erg = a + b;
 	cout << erg.re << " + " << erg.im << "i" << endl;
-
+#pragma endregion
 
 	vector<CKomplex> test = werte_einlesen("Daten_original.txt");
 	test = ft(test, true);
